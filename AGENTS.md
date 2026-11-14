@@ -28,3 +28,10 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- Data access goes straight from the browser through the generated backend client; security lives in the database (RLS + the `enforce_task_rules` trigger + `create_household`/`join_household` functions), so never move a permission check into UI-only code.
+- Household creation and joining only happen through the security-definer RPCs; memberships have no client insert/update grants.
+- Pure business rules (points, overdue, Brazil-calendar dates) live in `src/lib/tasks-rules.ts` with tests in `src/test/`; dates are compared as `YYYY-MM-DD` strings in America/Sao_Paulo to avoid timezone shifts.
+- Authenticated pages wrap content in `AppShell`, which loads the household and redirects to `/residencia` when the user has none.

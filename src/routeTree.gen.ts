@@ -10,33 +10,145 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedEquilibrioRouteImport } from './routes/_authenticated/equilibrio'
+import { Route as AuthenticatedMoradoresRouteImport } from './routes/_authenticated/moradores'
+import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
+import { Route as AuthenticatedResidenciaRouteImport } from './routes/_authenticated/residencia'
+import { Route as AuthenticatedTarefasIndexRouteImport } from './routes/_authenticated/tarefas.index'
+import { Route as AuthenticatedTarefasTaskIdRouteImport } from './routes/_authenticated/tarefas.$taskId'
+import { Route as AuthenticatedTarefasNovaRouteImport } from './routes/_authenticated/tarefas.nova'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedEquilibrioRoute = AuthenticatedEquilibrioRouteImport.update({
+  id: '/equilibrio',
+  path: '/equilibrio',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMoradoresRoute = AuthenticatedMoradoresRouteImport.update({
+  id: '/moradores',
+  path: '/moradores',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedResidenciaRoute = AuthenticatedResidenciaRouteImport.update({
+  id: '/residencia',
+  path: '/residencia',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTarefasIndexRoute =
+  AuthenticatedTarefasIndexRouteImport.update({
+    id: '/tarefas/',
+    path: '/tarefas/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTarefasTaskIdRoute =
+  AuthenticatedTarefasTaskIdRouteImport.update({
+    id: '/tarefas/$taskId',
+    path: '/tarefas/$taskId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTarefasNovaRoute =
+  AuthenticatedTarefasNovaRouteImport.update({
+    id: '/tarefas/nova',
+    path: '/tarefas/nova',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/equilibrio': typeof AuthenticatedEquilibrioRoute
+  '/moradores': typeof AuthenticatedMoradoresRoute
+  '/painel': typeof AuthenticatedPainelRoute
+  '/residencia': typeof AuthenticatedResidenciaRoute
+  '/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
+  '/tarefas/nova': typeof AuthenticatedTarefasNovaRoute
+  '/tarefas/': typeof AuthenticatedTarefasIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/equilibrio': typeof AuthenticatedEquilibrioRoute
+  '/moradores': typeof AuthenticatedMoradoresRoute
+  '/painel': typeof AuthenticatedPainelRoute
+  '/residencia': typeof AuthenticatedResidenciaRoute
+  '/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
+  '/tarefas/nova': typeof AuthenticatedTarefasNovaRoute
+  '/tarefas': typeof AuthenticatedTarefasIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/equilibrio': typeof AuthenticatedEquilibrioRoute
+  '/_authenticated/moradores': typeof AuthenticatedMoradoresRoute
+  '/_authenticated/painel': typeof AuthenticatedPainelRoute
+  '/_authenticated/residencia': typeof AuthenticatedResidenciaRoute
+  '/_authenticated/tarefas/$taskId': typeof AuthenticatedTarefasTaskIdRoute
+  '/_authenticated/tarefas/nova': typeof AuthenticatedTarefasNovaRoute
+  '/_authenticated/tarefas/': typeof AuthenticatedTarefasIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/equilibrio'
+    | '/moradores'
+    | '/painel'
+    | '/residencia'
+    | '/tarefas/$taskId'
+    | '/tarefas/nova'
+    | '/tarefas/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/equilibrio'
+    | '/moradores'
+    | '/painel'
+    | '/residencia'
+    | '/tarefas/$taskId'
+    | '/tarefas/nova'
+    | '/tarefas'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/equilibrio'
+    | '/_authenticated/moradores'
+    | '/_authenticated/painel'
+    | '/_authenticated/residencia'
+    | '/_authenticated/tarefas/$taskId'
+    | '/_authenticated/tarefas/nova'
+    | '/_authenticated/tarefas/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +160,99 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/equilibrio': {
+      id: '/_authenticated/equilibrio'
+      path: '/equilibrio'
+      fullPath: '/equilibrio'
+      preLoaderRoute: typeof AuthenticatedEquilibrioRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/moradores': {
+      id: '/_authenticated/moradores'
+      path: '/moradores'
+      fullPath: '/moradores'
+      preLoaderRoute: typeof AuthenticatedMoradoresRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/painel': {
+      id: '/_authenticated/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof AuthenticatedPainelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/residencia': {
+      id: '/_authenticated/residencia'
+      path: '/residencia'
+      fullPath: '/residencia'
+      preLoaderRoute: typeof AuthenticatedResidenciaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tarefas/': {
+      id: '/_authenticated/tarefas/'
+      path: '/tarefas'
+      fullPath: '/tarefas/'
+      preLoaderRoute: typeof AuthenticatedTarefasIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tarefas/$taskId': {
+      id: '/_authenticated/tarefas/$taskId'
+      path: '/tarefas/$taskId'
+      fullPath: '/tarefas/$taskId'
+      preLoaderRoute: typeof AuthenticatedTarefasTaskIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tarefas/nova': {
+      id: '/_authenticated/tarefas/nova'
+      path: '/tarefas/nova'
+      fullPath: '/tarefas/nova'
+      preLoaderRoute: typeof AuthenticatedTarefasNovaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedEquilibrioRoute: typeof AuthenticatedEquilibrioRoute
+  AuthenticatedMoradoresRoute: typeof AuthenticatedMoradoresRoute
+  AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
+  AuthenticatedResidenciaRoute: typeof AuthenticatedResidenciaRoute
+  AuthenticatedTarefasTaskIdRoute: typeof AuthenticatedTarefasTaskIdRoute
+  AuthenticatedTarefasNovaRoute: typeof AuthenticatedTarefasNovaRoute
+  AuthenticatedTarefasIndexRoute: typeof AuthenticatedTarefasIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedEquilibrioRoute: AuthenticatedEquilibrioRoute,
+  AuthenticatedMoradoresRoute: AuthenticatedMoradoresRoute,
+  AuthenticatedPainelRoute: AuthenticatedPainelRoute,
+  AuthenticatedResidenciaRoute: AuthenticatedResidenciaRoute,
+  AuthenticatedTarefasTaskIdRoute: AuthenticatedTarefasTaskIdRoute,
+  AuthenticatedTarefasNovaRoute: AuthenticatedTarefasNovaRoute,
+  AuthenticatedTarefasIndexRoute: AuthenticatedTarefasIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
